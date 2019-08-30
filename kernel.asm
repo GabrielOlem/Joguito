@@ -7,8 +7,38 @@ data:
     uc db 'Under Construction', 0
     it db 'Vai ter umas instrucoes aqui', 0
     gme db 'gme - Gabriel de Melo', 0
-    ersa db 'ersa - Elisson Rodrigo', 0
-    mbfg2 db 'mbfg2 - Morgana Beatriz', 0
+    ersa db 'ersa - Elisson Araujo', 0
+    mbfg2 db 'mbfg2 - Morgana Galamba', 0
+    ready db 'Are you ready?', 0
+    titulo db  'TITULO DO JOGO', 0
+    yon db 'Y - Yes   N - No', 0
+
+clear:                   
+    mov al, 12
+    mov bh, 0
+    mov cx, 50
+    mov dx, 50 
+
+    .for_v:
+        .for_h:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 80
+                jne .for_h
+            mov cx, 50
+            inc dx
+            cmp dx, 80
+            jne .for_v
+            ret
+    
+  
+    mov dx, 0 
+    mov bh, 0      
+    mov ah, 0x2
+    int 0x10
+    ret
 
 print:
     .loop:
@@ -42,10 +72,20 @@ tela:
     mov bh, 0
     mov bl, 0
     int 10h
+
     ret
 menu:
     .start:
-        call tela
+        call clear
+
+        mov si, titulo
+        mov bl, 14
+        mov ah, 02h
+        mov dh, 5
+        mov dl, 10
+        int 10h
+        call print
+
         mov si, start  
         mov bl, 10
         mov ah, 02h
@@ -76,10 +116,19 @@ menu:
         je .instructions
         cmp al, 13
         je .done
+
         jmp .start
     .instructions:
-        call tela
-        
+        call clear
+
+        mov si, titulo
+        mov bl, 14
+        mov ah, 02h
+        mov dh, 5
+        mov dl, 10
+        int 10h
+        call print
+
         mov si, start  
         mov bl, 15
         mov ah, 02h
@@ -116,7 +165,7 @@ menu:
         jmp .instructions
 
         .printInstructions:
-            call tela
+            call clear
 
             mov si, it  
             mov bl, 15
@@ -130,7 +179,15 @@ menu:
 
             jmp .instructions
     .credits:
-        call tela
+        call clear
+
+        mov si, titulo
+        mov bl, 14
+        mov ah, 02h
+        mov dh, 5
+        mov dl, 10
+        int 10h
+        call print
 
         mov si, start  
         mov bl, 15
@@ -165,7 +222,7 @@ menu:
 
         jmp .credits
         .printCredits:
-            call tela
+            call clear
 
             mov si, credits  
             mov bl, 10
@@ -205,23 +262,44 @@ menu:
     .done:
         ret
 joguito:
-    call tela
-    mov si, uc
+    call clear
+
+    mov si, ready
     mov bl, 4
     mov ah, 02h
     mov dh, 9
     mov dl, 12
     int 10h
     call print
+
+    mov si, yon
+    mov bl, 5
+    mov ah, 02h
+    mov dh, 12
+    mov dl, 10
+    int 10h
+    call print
+
+    call ler_letra
+
+    cmp al, 'y'
+    je .gameitself
+
+    cmp al, 'n'
+    jne joguito
+
     ret
+.gameitself:
+    jmp $
 main:
     xor ax, ax
     mov ds, ax
 
     call tela
-
     call menu
     call joguito
+
+    jmp main
 done:
     jmp $
 times 63*512-($-$$) db 0
