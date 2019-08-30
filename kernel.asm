@@ -14,10 +14,10 @@ data:
     yon db 'Y - Yes   N - No', 0
 
 clear:                   
-    mov al, 12
+    mov al, 0
     mov bh, 0
-    mov cx, 50
-    mov dx, 50 
+    mov cx, 0
+    mov dx, 0 
 
     .for_v:
         .for_h:
@@ -25,11 +25,11 @@ clear:
             int 10h
 
             inc cx
-            cmp cx, 80
+            cmp cx, 320
                 jne .for_h
-            mov cx, 50
+            mov cx, 0
             inc dx
-            cmp dx, 80
+            cmp dx, 200
             jne .for_v
             ret
     
@@ -76,7 +76,6 @@ tela:
     ret
 menu:
     .start:
-        call clear
 
         mov si, titulo
         mov bl, 14
@@ -119,7 +118,6 @@ menu:
 
         jmp .start
     .instructions:
-        call clear
 
         mov si, titulo
         mov bl, 14
@@ -177,9 +175,10 @@ menu:
 
             call ler_letra
 
+            call clear
+
             jmp .instructions
     .credits:
-        call clear
 
         mov si, titulo
         mov bl, 14
@@ -258,6 +257,8 @@ menu:
 
             call ler_letra
 
+            call clear
+            
             jmp .credits
     .done:
         ret
@@ -290,7 +291,8 @@ joguito:
 
     ret
 .gameitself:
-    jmp $
+    call clear
+    
 main:
     xor ax, ax
     mov ds, ax
