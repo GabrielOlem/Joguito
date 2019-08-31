@@ -13,8 +13,8 @@ data:
     titulo db  'TITULO DO JOGO', 0
     yon db 'Y - Yes   N - No', 0
     resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
-    hollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
-    highlight db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
+    hollow3 db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
+    highlight3 db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
     counth db 0
     count db 0
     winner db 'You won!', 0
@@ -308,8 +308,6 @@ printar_tabuleiro:
     .fim:
         ret
 joguito:
-    
-
     mov si, ready
     mov bl, 4
     mov ah, 02h
@@ -337,9 +335,9 @@ joguito:
     ret
 gameitself:
     call clear
-    mov si, hollow
+    mov si, hollow3
     call printar_tabuleiro
-    mov di, highlight
+    mov di, highlight3
     mov al, [di]
     mov byte[counth], al
     call printar_highlight
@@ -368,7 +366,6 @@ gameitself:
             call printar_letra
             mov al, ' '
             call printar_letra
-            
             
             inc di
             mov al, [di]
@@ -404,7 +401,7 @@ gameitself:
             int 10h
 
             mov bl, byte[counth]
-            mov si, hollow
+            mov si, hollow3
             .aumenta:
                 cmp bl, 0
                 je .movido
@@ -415,11 +412,11 @@ gameitself:
             mov [si], al
             mov bl, 15
             call printar_letra
-            mov si, hollow
+            mov si, hollow3
             call printar_tabuleiro
             jmp .jogo
         .verifica:
-            mov si, hollow
+            mov si, hollow3
             mov di, resolvido
             call compara
             je .ganhou
@@ -510,7 +507,6 @@ main:
     ;call menu
     ;call clear
     call joguito
-    
 done:
     jmp $
-times 63*512-($-$$) db 0
+    times 63*512-($-$$) db 0
