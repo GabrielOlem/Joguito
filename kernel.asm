@@ -364,10 +364,11 @@ gameitself:
             cmp byte[count], 50
             je .jogo
             add byte[count], 1
-            call clear
-
-            mov si, hollow
-            call printar_tabuleiro
+            mov al, 8
+            call printar_letra
+            mov al, ' '
+            call printar_letra
+            
             
             inc di
             mov al, [di]
@@ -379,9 +380,12 @@ gameitself:
             cmp byte[count], 0
             je .jogo
             add byte[count], -1 
-            call clear
-            mov si, hollow
-            call printar_tabuleiro
+
+            mov al, 8
+            call printar_letra
+            mov al, ' '
+            call printar_letra
+
             dec di
             mov al, [di]
            
@@ -411,6 +415,8 @@ gameitself:
             mov [si], al
             mov bl, 15
             call printar_letra
+            mov si, hollow
+            call printar_tabuleiro
             jmp .jogo
         .verifica:
             mov si, hollow
@@ -469,7 +475,7 @@ printar_highlight:
         .pula:
             mov cl, 0
             add dh, 2
-            mov dl, 15
+            mov dl, 10
             int 10h
             jmp .for_a
     .sai:
