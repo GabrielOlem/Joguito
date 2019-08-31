@@ -12,7 +12,7 @@ data:
     ersa db 'ersa - Elisson Araujo', 0
     mbfg2 db 'mbfg2 - Morgana Galamba', 0
     ready db 'Are you ready?', 0
-    titulo db  'TITULO DO JOGO', 0
+    titulo db  'SUDOKU', 0
     yon db 'Y - Yes   N - No', 0
     resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
     hollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
@@ -121,6 +121,100 @@ draw_line:
             inc dx
             cmp dx, 170
             jne .for_9
+    
+    mov cx, 75
+    mov dx, 44
+
+    .for_19:
+        .for_20:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_20
+            mov cx, 75
+            inc dx
+            cmp dx, 46
+            jne .for_19
+    
+    mov cx, 75
+    mov dx, 60
+
+    .for_21:
+        .for_22:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_22
+            mov cx, 75
+            inc dx
+            cmp dx, 62
+            jne .for_21
+    
+    mov cx, 75
+    mov dx, 92
+
+    .for_23:
+        .for_24:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_24
+            mov cx, 75
+            inc dx
+            cmp dx, 94
+            jne .for_23
+    mov cx, 75
+    mov dx, 108
+
+    .for_25:
+        .for_26:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_26
+            mov cx, 75
+            inc dx
+            cmp dx, 110
+            jne .for_25
+    
+    mov cx, 75
+    mov dx, 140
+
+    .for_27:
+        .for_28:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_28
+            mov cx, 75
+            inc dx
+            cmp dx, 142
+            jne .for_27
+    mov cx, 75
+    mov dx, 156
+
+    .for_29:
+        .for_30:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_30
+            mov cx, 75
+            inc dx
+            cmp dx, 158
+            jne .for_29
     mov al, 12
     mov cx, 219
     mov dx, 30
@@ -171,7 +265,7 @@ draw_line:
             jne .for_v
     
     mov cx, 75
-    mov dx, 30
+    mov dx, 29
 
     .for_15:
         .for_16:
@@ -181,11 +275,27 @@ draw_line:
             inc cx
             cmp cx, 221
                 jne .for_15
-            mov cx, 77
+            mov cx, 75
             inc dx
-            cmp dx, 32
+            cmp dx, 31
             jne .for_16
+    
+    mov cx, 75
+    mov dx, 170
 
+    .for_17:
+        .for_18:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_18
+            mov cx, 75
+            inc dx
+            cmp dx, 172
+            jne .for_17
+    
     mov cx, 77
     mov dx, 123
     .for_j:
@@ -347,6 +457,12 @@ printar_letra:
     mov bh, 0
     int 10h
     ret
+printar_letra1:
+    mov ah, 0xe
+    mov bl,12
+    mov bh, 0
+    int 10h
+    ret
 ler_letra:
     mov ah, 0
     int 16h
@@ -370,7 +486,7 @@ menu:
     .start:
 
         mov si, titulo
-        mov bl, 14
+        mov bl, 12
         mov ah, 02h
         mov dh, 5
         mov dl, 10
@@ -412,7 +528,7 @@ menu:
     .instructions:
 
         mov si, titulo
-        mov bl, 14
+        mov bl, 12
         mov ah, 02h
         mov dh, 5
         mov dl, 10
@@ -464,16 +580,14 @@ menu:
             mov dl, 10
             int 10h
             call print
-
             call ler_letra
-
             call clear
 
             jmp .instructions
     .credits:
 
         mov si, titulo
-        mov bl, 14
+        mov bl, 12
         mov ah, 02h
         mov dh, 5
         mov dl, 10
@@ -571,10 +685,8 @@ printar_tabuleiro:
         mov bl, 15
         call printar_letra
 
-        mov ah, 02h
-        mov bh, 0
-        add dl, 2
-        int 10h
+        mov al, '|'
+        call printar_letra1
 
         cmp cl, 9
         je .endl
@@ -648,7 +760,7 @@ gameitself:
             add byte[count], 1
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
+            call draw_line
             
             
             inc di
@@ -665,7 +777,7 @@ gameitself:
             
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
+            call draw_line
             
             dec di
             mov al, [di]
@@ -698,7 +810,7 @@ gameitself:
             call printar_letra
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
+            call draw_line
             jmp .jogo
         .verifica:
             mov si, hollow
