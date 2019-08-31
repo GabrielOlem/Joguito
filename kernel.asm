@@ -434,10 +434,8 @@ gameitself:
             cmp byte[count], 50
             je .jogo
             add byte[count], 1
-            mov al, 8
-            call printar_letra
-            mov al, ' '
-            call printar_letra
+            mov si, hollow3
+            call printar_tabuleiro
             
             
             inc di
@@ -451,11 +449,10 @@ gameitself:
             je .jogo
             add byte[count], -1 
 
-            mov al, 8
-            call printar_letra
-            mov al, ' '
-            call printar_letra
-
+            
+            mov si, hollow3
+            call printar_tabuleiro
+            
             dec di
             mov al, [di]
            
