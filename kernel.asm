@@ -12,7 +12,18 @@ data:
     ready db 'Are you ready?', 0
     titulo db  'TITULO DO JOGO', 0
     yon db 'Y - Yes   N - No', 0
-
+    resolvido db '1|4|3|23|2|1|44|1|2|32|3|4|1', 0
+    hollow db ' |4|3|23|2|1| 4|1|2|  |3|4|1', 0
+    highlight db 0, 7, 11, 12
+    counth db 0
+    count db 0
+pular_linha:
+    mov al, 0x0d
+    mov ah, 0x0e
+    int 10h
+    mov al, 0x0a
+    int 10h
+    ret
 clear:                   
     mov al, 0
     mov bh, 0
@@ -262,8 +273,34 @@ menu:
             jmp .credits
     .done:
         ret
+printar_tabuleiro:
+    mov ah, 02h
+    mov bh, 0
+    mov dh, 10
+    mov dl, 15
+    int 10h
+    mov cl, 0
+    .printa:
+        lodsb
+        inc cl
+        cmp al, 0
+        je .fim
+        mov bl, 15
+        call printar_letra
+        cmp cl, 7
+        je .endl
+        jmp .printa
+        .endl:
+            mov cl, 0
+            mov ah, 02h
+            mov bh, 0
+            add dh, 2
+            int 10h
+            jmp .printa
+    .fim:
+        ret
 joguito:
-    call clear
+    
 
     mov si, ready
     mov bl, 4
@@ -292,16 +329,110 @@ joguito:
     ret
 .gameitself:
     call clear
-    
+    mov si, hollow
+    call printar_tabuleiro
+    mov di, highlight
+    mov al, [di]
+    mov byte[counth], al
+    call printar_highlight
+    .jogo:
+        call ler_letra
+
+        cmp al, 'd'
+        je .direita
+
+        cmp al, 'a'
+        je .esquerda
+
+        cmp al, 13
+        je .escolhenum
+
+        jmp .jogo
+
+        .direita:
+            cmp byte[count], 3
+            je .jogo
+            add byte[count], 1
+            call clear
+
+            mov si, hollow
+            call printar_tabuleiro
+            
+            inc di
+            mov al, [di]
+            
+            mov byte[counth], al
+            call printar_highlight
+            jmp .jogo
+        .esquerda:
+            cmp byte[count], 0
+            je .jogo
+            add byte[count], -1 
+            call clear
+            mov si, hollow
+            call printar_tabuleiro
+            dec di
+            mov al, [di]
+           
+            mov byte[counth], al
+            call printar_highlight
+            jmp .jogo
+        .escolhenum:
+            call ler_letra
+            cmp al, '0'
+            jl .escolhenum
+            cmp al, '9'
+            jg .escolhenum
+            mov ah, 02h
+            int 10h 
+            call printar_letra
+            jmp .jogo
+    ret
+printar_highlight:
+    mov ah, 02h
+    mov bh, 0
+    mov dh, 10
+    mov dl, 15
+    int 10h
+    mov cl, 0
+    mov al, 0
+    .for_a:
+        inc cl
+
+        cmp cl, 5
+        je .pula
+
+        
+
+        cmp al, byte[counth]
+        je .sai
+
+        add dl, 2
+        inc al
+
+        jmp .for_a
+
+        .pula:
+            mov cl, 0
+            add dh, 2
+            mov dl, 15
+            int 10h
+            jmp .for_a
+    .sai:
+        int 10h
+        mov al, '_'
+        mov bl, 12
+        call printar_letra
+    ret
 main:
     xor ax, ax
     mov ds, ax
 
     call tela
-    call menu
+    ;call menu
+    ;call clear
     call joguito
-
-    jmp main
+    
 done:
     jmp $
 times 63*512-($-$$) db 0
