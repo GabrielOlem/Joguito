@@ -459,7 +459,7 @@ printar_letra:
     ret
 printar_letra1:
     mov ah, 0xe
-    mov bl,12
+    mov bl, 12
     mov bh, 0
     int 10h
     ret
@@ -685,8 +685,9 @@ printar_tabuleiro:
         mov bl, 15
         call printar_letra
 
-        mov al, '|'
-        call printar_letra1
+        mov ah, 02h
+        add dl, 2
+        int 10h
 
         cmp cl, 9
         je .endl
@@ -696,6 +697,7 @@ printar_tabuleiro:
             mov ah, 02h
             mov bh, 0
             add dh, 2
+            mov dl, 10
             int 10h
             jmp .printa
     .fim:
@@ -760,7 +762,7 @@ gameitself:
             add byte[count], 1
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             
             
             inc di
@@ -777,7 +779,7 @@ gameitself:
             
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             
             dec di
             mov al, [di]
@@ -810,7 +812,7 @@ gameitself:
             call printar_letra
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             jmp .jogo
         .verifica:
             mov si, hollow
@@ -901,11 +903,13 @@ main:
     mov ds, ax
 
     call tela
+    
     call draw_detalhe
     call menu
     call clear
     call joguito
-    
+
+    jmp main
 done:
     jmp $
 times 63*512-($-$$) db 0
