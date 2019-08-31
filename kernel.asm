@@ -571,8 +571,10 @@ printar_tabuleiro:
         mov bl, 15
         call printar_letra
 
-        mov al, '|'
-        call printar_letra
+        mov ah, 02h
+        mov bh, 0
+        add dl, 2
+        int 10h
 
         cmp cl, 9
         je .endl
@@ -646,7 +648,7 @@ gameitself:
             add byte[count], 1
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             
             
             inc di
@@ -663,7 +665,7 @@ gameitself:
             
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             
             dec di
             mov al, [di]
@@ -696,7 +698,7 @@ gameitself:
             call printar_letra
             mov si, hollow
             call printar_tabuleiro
-            call draw_line
+            ;call draw_line
             jmp .jogo
         .verifica:
             mov si, hollow
