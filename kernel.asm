@@ -12,11 +12,13 @@ data:
     ready db 'Are you ready?', 0
     titulo db  'TITULO DO JOGO', 0
     yon db 'Y - Yes   N - No', 0
-    resolvido db '1|4|3|23|2|1|44|1|2|32|3|4|1', 0
-    hollow db ' |4|3|23|2|1| 4|1|2|  |3|4|1', 0
+    resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
+    hollow db '53  7     6  195    98 42567859761423426853791713924856961537284287419635345286179', 0
     highlight db 0, 7, 11, 12
     counth db 0
     count db 0
+    winner db 'You won!', 0
+    loser db 'You lost!', 0
 pular_linha:
     mov al, 0x0d
     mov ah, 0x0e
@@ -287,7 +289,9 @@ printar_tabuleiro:
         je .fim
         mov bl, 15
         call printar_letra
-        cmp cl, 7
+        mov al, ' '
+        call printar_letra
+        cmp cl, 4
         je .endl
         jmp .printa
         .endl:
@@ -321,13 +325,13 @@ joguito:
     call ler_letra
 
     cmp al, 'y'
-    je .gameitself
+    je gameitself
 
     cmp al, 'n'
     jne joguito
 
     ret
-.gameitself:
+gameitself:
     call clear
     mov si, hollow
     call printar_tabuleiro
@@ -346,6 +350,9 @@ joguito:
 
         cmp al, 13
         je .escolhenum
+        
+        cmp al, 'f'
+        je .verifica
 
         jmp .jogo
 
@@ -379,15 +386,58 @@ joguito:
             jmp .jogo
         .escolhenum:
             call ler_letra
+
             cmp al, '0'
             jl .escolhenum
             cmp al, '9'
             jg .escolhenum
+
             mov ah, 02h
-            int 10h 
+            int 10h
+
+            mov bl, byte[counth]
+            mov si, hollow
+            .aumenta:
+                cmp bl, 0
+                je .movido
+                inc si
+                dec bl
+                jmp .aumenta
+            .movido:
+            mov [si], al
+            mov bl, 15
             call printar_letra
             jmp .jogo
-    ret
+        .verifica:
+            mov si, hollow
+            mov di, resolvido
+            call compara
+            je .ganhou
+            jmp .perdeu
+            .ganhou:
+                call clear
+                mov si, winner  
+                mov bl, 12
+                mov ah, 02h
+                mov dh, 12
+                mov dl, 15
+                int 10h
+                call print
+                call ler_letra
+                jmp .end
+            .perdeu:
+                call clear
+                mov si, loser  
+                mov bl, 10
+                mov ah, 02h
+                mov dh, 12
+                mov dl, 15
+                int 10h
+                call print
+                call ler_letra
+                jmp .end
+    .end:       
+        jmp main
 printar_highlight:
     mov ah, 02h
     mov bh, 0
@@ -424,6 +474,24 @@ printar_highlight:
         mov bl, 12
         call printar_letra
     ret
+compara:
+    .loop:
+        mov al, [si]
+        mov bl, [di]
+        cmp al, bl
+        jne .diferente
+
+        cmp al,0
+        je .igual
+        inc di
+        inc si
+        jmp .loop
+    .diferente:
+        clc
+        ret
+    .igual:
+        stc
+        ret
 main:
     xor ax, ax
     mov ds, ax
