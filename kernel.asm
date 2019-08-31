@@ -13,8 +13,8 @@ data:
     titulo db  'TITULO DO JOGO', 0
     yon db 'Y - Yes   N - No', 0
     resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
-    hollow db '53  7     6  195    98 42567859761423426853791713924856961537284287419635345286179', 0
-    highlight db 0, 7, 11, 12
+    hollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
+    highlight db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
     counth db 0
     count db 0
     winner db 'You won!', 0
@@ -278,20 +278,24 @@ menu:
 printar_tabuleiro:
     mov ah, 02h
     mov bh, 0
-    mov dh, 10
-    mov dl, 15
+    mov dh, 4
+    mov dl, 10
     int 10h
     mov cl, 0
     .printa:
         lodsb
         inc cl
+
         cmp al, 0
         je .fim
+
         mov bl, 15
         call printar_letra
-        mov al, ' '
+
+        mov al, '|'
         call printar_letra
-        cmp cl, 4
+
+        cmp cl, 9
         je .endl
         jmp .printa
         .endl:
@@ -357,7 +361,7 @@ gameitself:
         jmp .jogo
 
         .direita:
-            cmp byte[count], 3
+            cmp byte[count], 50
             je .jogo
             add byte[count], 1
             call clear
@@ -441,15 +445,15 @@ gameitself:
 printar_highlight:
     mov ah, 02h
     mov bh, 0
-    mov dh, 10
-    mov dl, 15
+    mov dh, 4
+    mov dl, 10
     int 10h
     mov cl, 0
     mov al, 0
     .for_a:
         inc cl
 
-        cmp cl, 5
+        cmp cl, 10
         je .pula
 
         
