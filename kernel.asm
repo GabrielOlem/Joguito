@@ -28,6 +28,215 @@ pular_linha:
     mov al, 0x0a
     int 10h
     ret
+draw_line:
+
+    mov bh, 0
+    mov al,7
+    mov cx, 91
+    mov dx, 30        
+    .for_w:
+        .for_x:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 93
+                jne .for_x
+            mov cx, 91
+            inc dx
+            cmp dx, 170
+            jne .for_w
+    
+    mov cx, 107
+    mov dx, 30       
+    .for_y:
+        .for_z:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,109
+                jne .for_z
+            mov cx, 107
+            inc dx
+            cmp dx, 170
+            jne .for_y
+    
+    mov cx, 139
+    mov dx, 30        
+    .for_3:
+        .for_4:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,141
+                jne .for_4
+            mov cx, 139
+            inc dx
+            cmp dx, 170
+            jne .for_3
+    mov cx, 155
+    mov dx, 30        
+    .for_5:
+        .for_6:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,157
+                jne .for_6
+            mov cx, 155
+            inc dx
+            cmp dx, 170
+            jne .for_5
+    
+    mov cx, 187
+    mov dx, 30        
+    .for_7:
+        .for_8:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,189
+                jne .for_8
+            mov cx, 187
+            inc dx
+            cmp dx, 170
+            jne .for_7
+    
+    mov cx, 203
+    mov dx, 30
+
+    .for_9:
+        .for_10:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,205
+                jne .for_10
+            mov cx, 203
+            inc dx
+            cmp dx, 170
+            jne .for_9
+    mov al, 12
+    mov cx, 219
+    mov dx, 30
+            
+    .for_11:
+        .for_12:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,221
+                jne .for_12
+            mov cx, 219
+            inc dx
+            cmp dx, 170
+            jne .for_11
+    
+    mov cx, 75
+    mov dx, 30
+            
+    .for_13:
+        .for_14:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx,77
+                jne .for_14
+            mov cx, 75
+            inc dx
+            cmp dx, 170
+            jne .for_13
+    
+    mov cx, 77
+    mov dx, 73
+
+    .for_v:
+        .for_h:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_h
+            mov cx, 77
+            inc dx
+            cmp dx, 75
+            jne .for_v
+    
+    mov cx, 75
+    mov dx, 30
+
+    .for_15:
+        .for_16:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_15
+            mov cx, 77
+            inc dx
+            cmp dx, 32
+            jne .for_16
+
+    mov cx, 77
+    mov dx, 123
+    .for_j:
+        .for_k:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 221
+                jne .for_k
+            mov cx, 77
+            inc dx
+            cmp dx, 125
+            jne .for_j
+            
+    mov cx, 123
+    mov dx, 30        
+    .for_l:
+        .for_m:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 125
+                jne .for_m
+            mov cx, 123
+            inc dx
+            cmp dx, 170
+            jne .for_l
+                       
+    mov cx, 171
+    mov dx, 30        
+    .for_n:
+        .for_o:
+            mov ah, 0ch
+            int 10h
+
+            inc cx
+            cmp cx, 173
+                jne .for_o
+            mov cx, 171
+            inc dx
+            cmp dx, 170
+            jne .for_n
+            ret
+    
+    mov dx, 0 
+    mov bh, 0      
+    mov ah, 0x2
+    int 0x10
+    ret
 
 draw_detalhe:
     mov si, quadrado1
@@ -379,7 +588,7 @@ printar_tabuleiro:
         ret
 joguito:
     
-
+    
     mov si, ready
     mov bl, 4
     mov ah, 02h
@@ -409,6 +618,7 @@ gameitself:
     call clear
     mov si, hollow
     call printar_tabuleiro
+    call draw_line
     mov di, highlight
     mov al, [di]
     mov byte[counth], al
@@ -434,8 +644,9 @@ gameitself:
             cmp byte[count], 50
             je .jogo
             add byte[count], 1
-            mov si, hollow3
+            mov si, hollow
             call printar_tabuleiro
+            call draw_line
             
             
             inc di
@@ -450,8 +661,9 @@ gameitself:
             add byte[count], -1 
 
             
-            mov si, hollow3
+            mov si, hollow
             call printar_tabuleiro
+            call draw_line
             
             dec di
             mov al, [di]
@@ -484,6 +696,7 @@ gameitself:
             call printar_letra
             mov si, hollow
             call printar_tabuleiro
+            call draw_line
             jmp .jogo
         .verifica:
             mov si, hollow
