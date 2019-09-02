@@ -16,6 +16,7 @@ data:
     yon db 'Y - Yes   N - No', 0
     resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
     hollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
+    a db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
     highlight db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
     counth db 0
     count db 0
@@ -762,7 +763,6 @@ gameitself:
             add byte[count], 1
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
             
             
             inc di
@@ -779,7 +779,6 @@ gameitself:
             
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
             
             dec di
             mov al, [di]
@@ -790,7 +789,7 @@ gameitself:
         .escolhenum:
             call ler_letra
 
-            cmp al, '0'
+            cmp al, '1'
             jl .escolhenum
             cmp al, '9'
             jg .escolhenum
@@ -808,11 +807,8 @@ gameitself:
                 jmp .aumenta
             .movido:
             mov [si], al
-            mov bl, 15
-            call printar_letra
             mov si, hollow
             call printar_tabuleiro
-            ;call draw_line
             jmp .jogo
         .verifica:
             mov si, hollow
@@ -830,7 +826,7 @@ gameitself:
                 int 10h
                 call print
                 call ler_letra
-                jmp .end
+                ret
             .perdeu:
                 call clear
                 mov si, loser  
@@ -841,9 +837,7 @@ gameitself:
                 int 10h
                 call print
                 call ler_letra
-                jmp .end
-    .end:       
-        jmp main
+                ret
 printar_highlight:
     mov ah, 02h
     mov bh, 0
@@ -898,17 +892,35 @@ compara:
     .igual:
         stc
         ret
+movString:
+    .loop:
+        mov al, [si]
+        cmp al, 0
+        je .fim
+        mov [di], al
+        inc di 
+        inc si
+        jmp .loop
+    .fim:
+        ret
 main:
     xor ax, ax
     mov ds, ax
 
     call tela
-    
+    mov byte[counth], 0
+    mov byte[count], 0
+
+   
+
     call draw_detalhe
     call menu
     call clear
     call joguito
 
+    mov si, a
+    mov di, hollow
+    call movString
     jmp main
 done:
     jmp $
