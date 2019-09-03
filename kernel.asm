@@ -14,14 +14,27 @@ data:
     ready db 'Are you ready?', 0
     titulo db  'SUDOKU', 0
     yon db 'Y - Yes   N - No', 0
+    highlight db 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 24, 26, 27, 28, 30, 32, 33, 34, 36, 38, 39, 40, 41, 42, 44, 46, 47, 48, 50, 52, 53, 54, 56, 57, 58, 59, 60, 61, 63, 64, 67, 68, 69, 71, 72, 73, 74, 76, 77, 78, 79
     resolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
     hollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
-    a db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
-    highlight db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
+    qtd db 0
+
+    ahollow db '4  3 8  662     87  9   1   5  2  7 9  4 7  8 4  3  9   7   5  23     615  7 2  9',0
+    aresolvido db '475318926621594387389276154158629473963457218742831695897163542234985761516742839', 0
+    ahighlight db 1, 2, 4, 6, 7, 11, 12, 13, 14, 15, 18, 19, 21, 22, 23, 25, 26, 27, 29, 30, 32, 33, 35, 37, 38, 40, 42, 43, 45, 47, 48, 50, 51, 53, 54, 55, 57, 58, 59, 61, 62, 65, 66, 67, 68, 69, 73, 74, 76, 78, 79
+
+    bhollow db '53  7    6  195    98    6 8   6   34  8 3  17   2   6 6    28    419  5    8  79', 0
+    bresolvido db '534678912672195348198342567859761423426853791713924856961537284287419635345286179', 0
+    bhighlight db 2, 3, 5, 6, 7, 8, 10, 11, 15, 16, 17, 18, 21, 22, 23, 24, 26, 28, 29, 30, 32, 33, 34, 37, 38, 40, 42, 43, 46, 47, 48, 50, 51, 52, 54, 56, 57, 58, 59, 62, 63, 64, 65, 69, 70, 72, 73, 74, 75, 77, 78
+    
+    chollow db '7    4    4   59  8      2   6 9   4 1     3 2   8 5   5      1  37   8    2    6', 0
+    cresolvido db '729364158341825967865971423536192874918547632274683519652438791493716285187259346', 0
+    chighlight db 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 24, 26, 27, 28, 30, 32, 33, 34, 36, 38, 39, 40, 41, 42, 44, 46, 47, 48, 50, 52, 53, 54, 56, 57, 58, 59, 60, 61, 63, 64, 67, 68, 69, 71, 72, 73, 74, 76, 77, 78, 79 
     counth db 0
     count db 0
     winner db 'You won!', 0
     loser db 'You lost!', 0
+    choose db '1 - Easy 2 - Medium 3 - Hard', 0
 pular_linha:
     mov al, 0x0d
     mov ah, 0x0e
@@ -706,29 +719,72 @@ printar_tabuleiro:
 joguito:
     
     
-    mov si, ready
+    mov si, choose
     mov bl, 4
     mov ah, 02h
     mov dh, 9
-    mov dl, 12
-    int 10h
-    call print
-
-    mov si, yon
-    mov bl, 5
-    mov ah, 02h
-    mov dh, 12
-    mov dl, 10
+    mov dl, 8
     int 10h
     call print
 
     call ler_letra
 
-    cmp al, 'y'
-    je gameitself
+    cmp al, '1'
+    je .facil
+
+    cmp al, '2'
+    je .medio
+
+    cmp al, '3'
+    je .dificil
 
     cmp al, 'n'
     jne joguito
+
+    .facil:
+        mov si, ahollow
+        mov di, hollow
+        call movString
+        
+        mov si, ahighlight
+        mov di, highlight
+        call movString
+
+        mov si, aresolvido
+        mov di, resolvido
+        call movString
+        
+        mov byte[qtd], 50
+        jmp gameitself
+    .medio:
+        mov si, bhollow
+        mov di, hollow
+        call movString
+
+        mov si, bhighlight
+        mov di, highlight
+        call movString
+
+        mov si, bresolvido
+        mov di, resolvido
+        call movString
+        mov byte[qtd], 50 
+        jmp gameitself
+    .dificil:
+        mov si, chollow
+        mov di, hollow
+        call movString
+
+        mov si, chighlight
+        mov di, highlight
+        call movString
+
+        mov si, cresolvido
+        mov di, resolvido
+        call movString
+
+        mov byte[qtd], 58
+        jmp gameitself
 
     ret
 gameitself:
@@ -758,7 +814,8 @@ gameitself:
         jmp .jogo
 
         .direita:
-            cmp byte[count], 50
+            mov ah, byte[qtd]
+            cmp byte[count], ah
             je .jogo
             add byte[count], 1
             mov si, hollow
@@ -918,9 +975,6 @@ main:
     call clear
     call joguito
 
-    mov si, a
-    mov di, hollow
-    call movString
     jmp main
 done:
     jmp $
