@@ -8,18 +8,21 @@ data:
     start db 'Start', 0
     instructions db 'Instructions', 0
     credits db 'Credits', 0
-    uc db 'Under Construction', 0
-    it db 'Vai ter umas instrucoes aqui', 0
+    creditsT db 'CREDITS', 0
     gme db 'gme - Gabriel de Melo', 0
     ersa db 'ersa - Elisson Araujo', 0
     mbfg2 db 'mbfg2 - Morgana Galamba', 0
     ready db 'Are you ready?', 0
-    titulo db  'SUDOKU', 0
+    titulo db  '- SUDOKU -', 0
     yon db 'Y - Yes   N - No', 0
-    movimentacaoTitle db 'Teclas de movimentacao:', 0
-    movimentacaoA db 'A - Move cursor para direita', 0
-    movimentacaoD db 'D - Move cursos para esquerda', 0
-    movimentacaoSel db 'Enter - Seleciona o campo a ser preenchido', 0
+    movimentacaoTitle db 'TECLAS DE MOVIMENTACAO:', 0
+    movimentacaoA db 'A - Mover cursor para direita', 0
+    movimentacaoD db 'D - Mover cursos para esquerda', 0
+    selectionT db 'TECLAS DE SELECAO:', 0
+    selectionC db 'Enter - Selecionar o campo', 0
+    selectionF db 'F - Enviar resposta', 0
+    regrasT db 'REGRAS:', 0
+    regrasB db 'Regras similares ao Sudoku comum', 0
 
     highlight db 1, 2, 3, 4, 6, 7, 8, 9, 11, 12, 13, 16, 17, 19, 20, 21, 22, 23, 24, 26, 27, 28, 30, 32, 33, 34, 36, 38, 39, 40, 41, 42, 44, 46, 47, 48, 50, 52, 53, 54, 56, 57, 58, 59, 60, 61, 63, 64, 67, 68, 69, 71, 72, 73, 74, 76, 77, 78, 79
 
@@ -51,7 +54,10 @@ data:
     count db 0
     winner db 'You won!', 0
     loser db 'You lost!', 0
-    choose db '1 - Easy 2 - Medium 3 - Hard', 0
+    dificuldade db 'DIFICULADE:', 0
+    choose1 db '1 - Easy', 0
+    choose2 db '2 - Medium', 0
+    choose3 db '3 - Hard', 0
 
 pular_linha:
     mov al, 0x0d
@@ -475,6 +481,7 @@ clear:
     int 0x10
     ret
 
+
 print:
     .loop:
         lodsb
@@ -518,13 +525,13 @@ tela:
 
     ret
 menu:
+    call clear
     .start:
-
         mov si, titulo
         mov bl, 12
         mov ah, 02h
         mov dh, 5
-        mov dl, 10
+        mov dl, 14
         int 10h
         call print
 
@@ -532,7 +539,7 @@ menu:
         mov bl, 10
         mov ah, 02h
         mov dh, 9
-        mov dl, 15
+        mov dl, 16
         int 10h
         call print
 
@@ -540,7 +547,7 @@ menu:
         mov bl, 15
         mov ah, 02h
         mov dh, 12
-        mov dl, 15
+        mov dl, 13
         int 10h
         call print
 
@@ -566,7 +573,7 @@ menu:
         mov bl, 12
         mov ah, 02h
         mov dh, 5
-        mov dl, 10
+        mov dl, 14
         int 10h
         call print
 
@@ -574,7 +581,7 @@ menu:
         mov bl, 15
         mov ah, 02h
         mov dh, 9
-        mov dl, 15
+        mov dl, 16
         int 10h
         call print
 
@@ -582,7 +589,7 @@ menu:
         mov bl, 10
         mov ah, 02h
         mov dh, 12
-        mov dl, 15
+        mov dl, 13
         int 10h
         call print
 
@@ -608,16 +615,72 @@ menu:
         .printInstructions:
             call clear
 
-            mov si, it  
+            mov si, movimentacaoTitle  
             mov bl, 15
             mov ah, 02h
-            mov dh, 9
-            mov dl, 10
+            mov dh, 2
+            mov dl, 8
             int 10h
             call print
+
+            mov si, movimentacaoA
+            mov bl, 11
+            mov ah, 02h
+            mov dh, 5
+            mov dl, 5
+            int 10h
+            call print
+
+            mov si, movimentacaoD  
+            mov bl, 11
+            mov ah, 02h
+            mov dh, 7
+            mov dl, 5
+            int 10h
+            call print
+
+            mov si, selectionT
+            mov bl, 15
+            mov ah, 02h
+            mov dh, 11
+            mov dl, 10
+            int 10h
+
+            call print
+            mov si, selectionC
+            mov bl, 11
+            mov ah, 02h
+            mov dh, 13
+            mov dl, 7
+            int 10h
+
+            call print
+            mov si, selectionF
+            mov bl, 11
+            mov ah, 02h
+            mov dh, 15
+            mov dl, 11
+            int 10h
+            call print
+
+            mov si, regrasT
+            mov bl, 15
+            mov ah, 02h
+            mov dh, 19
+            mov dl, 15
+            int 10h
+            call print
+
+            mov si, regrasB
+            mov bl, 11
+            mov ah, 02h
+            mov dh, 21
+            mov dl, 4
+            int 10h
+            call print
+
             call ler_letra
             call clear
-
             jmp .instructions
     .credits:
 
@@ -625,7 +688,7 @@ menu:
         mov bl, 12
         mov ah, 02h
         mov dh, 5
-        mov dl, 10
+        mov dl, 14
         int 10h
         call print
 
@@ -633,7 +696,7 @@ menu:
         mov bl, 15
         mov ah, 02h
         mov dh, 9
-        mov dl, 15
+        mov dl, 16
         int 10h
         call print
 
@@ -641,7 +704,7 @@ menu:
         mov bl, 15
         mov ah, 02h
         mov dh, 12
-        mov dl, 15
+        mov dl, 13
         int 10h
         call print
 
@@ -664,8 +727,8 @@ menu:
         .printCredits:
             call clear
 
-            mov si, credits  
-            mov bl, 10
+            mov si, creditsT
+            mov bl, 15
             mov ah, 02h
             mov dh, 6
             mov dl, 15
@@ -673,26 +736,26 @@ menu:
             call print
 
             mov si, ersa  
-            mov bl, 15
+            mov bl, 11
             mov ah, 02h
             mov dh, 10
-            mov dl, 10
+            mov dl, 9
             int 10h
             call print
 
             mov si, gme  
-            mov bl, 15
+            mov bl, 11
             mov ah, 02h
             mov dh, 13
-            mov dl, 10
+            mov dl, 9
             int 10h
             call print
 
             mov si, mbfg2  
-            mov bl, 15
+            mov bl, 11
             mov ah, 02h
             mov dh, 16
-            mov dl, 10
+            mov dl, 8
             int 10h
             call print
 
@@ -739,12 +802,35 @@ printar_tabuleiro:
         ret
 joguito:
     
-    
-    mov si, choose
-    mov bl, 4
+    mov si, dificuldade
+    mov bl, 15
+    mov ah, 02h
+    mov dh, 5
+    mov dl, 14
+    int 10h
+    call print
+
+    mov si, choose1
+    mov bl, 10
     mov ah, 02h
     mov dh, 9
-    mov dl, 8
+    mov dl, 15
+    int 10h
+    call print
+    
+    mov si, choose2
+    mov bl, 11
+    mov ah, 02h
+    mov dh, 11
+    mov dl, 14
+    int 10h
+    call print
+    
+    mov si, choose3
+    mov bl, 4
+    mov ah, 02h
+    mov dh, 13
+    mov dl, 15
     int 10h
     call print
 
@@ -758,6 +844,9 @@ joguito:
 
     cmp al, '3'
     je .dificil
+
+    cmp al, 27
+    je menu
 
     cmp al, 'n'
     jne joguito
