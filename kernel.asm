@@ -17,7 +17,7 @@ data:
     yon db 'Y - Yes   N - No', 0
     movimentacaoTitle db 'TECLAS DE MOVIMENTACAO:', 0
     movimentacaoA db 'A - Mover cursor para direita', 0
-    movimentacaoD db 'D - Mover cursos para esquerda', 0
+    movimentacaoD db 'D - Mover cursor para esquerda', 0
     selectionT db 'TECLAS DE SELECAO:', 0
     selectionC db 'Enter - Selecionar o campo', 0
     selectionF db 'F - Enviar resposta', 0
