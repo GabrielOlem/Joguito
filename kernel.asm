@@ -54,7 +54,7 @@ data:
     count db 0
     winner db 'You won!', 0
     loser db 'You lost!', 0
-    dificuldade db 'DIFICULADE:', 0
+    dificuldade db 'DIFICULDADE:', 0
     choose1 db '1 - Easy', 0
     choose2 db '2 - Medium', 0
     choose3 db '3 - Hard', 0
@@ -846,10 +846,9 @@ joguito:
     je .dificil
 
     cmp al, 27
-    je menu
-
-    cmp al, 'n'
     jne joguito
+
+    ret
 
     .facil:
         mov si, ahollow
@@ -920,6 +919,9 @@ gameitself:
         
         cmp al, 'f'
         je .verifica
+
+        cmp al, 8
+        je .backspace
 
         jmp .jogo
 
@@ -1005,6 +1007,26 @@ gameitself:
                 call print
                 call ler_letra
                 ret
+        .backspace:
+            mov ah, 02h
+            int 10h
+
+            mov bl, byte[counth]
+            mov si, hollow
+            .aumenta1:
+                cmp bl, 0
+                je .movido1
+                inc si
+                dec bl
+                jmp .aumenta1
+            .movido1:
+            mov al, ' '
+            call printar_letra
+            mov [si], al
+            mov si, hollow
+            call printar_tabuleiro
+            call printar_highlight
+            jmp .jogo
 printar_highlight:
     mov ah, 02h
     mov bh, 0
@@ -1075,17 +1097,15 @@ main:
     mov ds, ax
 
     call tela
-    mov byte[counth], 0
-    mov byte[count], 0
 
-   
-
-    call draw_detalhe
-    call menu
-    call clear
-    call joguito
-
-    jmp main
+    .loop:
+        mov byte[counth], 0
+        mov byte[count], 0
+        call draw_detalhe
+        call menu
+        call clear
+        call joguito
+        jmp .loop
 done:
     jmp $
 times 63*512-($-$$) db 0
