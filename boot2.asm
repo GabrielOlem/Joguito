@@ -95,7 +95,7 @@ printLine:
     mov ah, 0xe
     int 10h
 
-    mov dx, 300
+    mov dx, 1
     call delay
 
     jmp printLine
