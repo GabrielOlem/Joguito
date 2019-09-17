@@ -784,7 +784,7 @@ printar_tabuleiro:
         mov ah, [conta]
         cmp [di], ah
         jne .a
-        mov bl, 4
+        mov bl, 7
         inc di
         
         .a:
@@ -870,7 +870,7 @@ joguito:
         mov si, aresolvido
         mov di, resolvido
         call movString
-        mov byte[color], 4
+        mov byte[color], 10
         mov byte[qtd], 50
         jmp gameitself
     .medio:
@@ -885,7 +885,7 @@ joguito:
         mov si, bresolvido
         mov di, resolvido
         call movString
-        mov byte[color], 5
+        mov byte[color], 11
         mov byte[qtd], 50 
         jmp gameitself
     .dificil:
@@ -900,7 +900,7 @@ joguito:
         mov si, cresolvido
         mov di, resolvido
         call movString
-        mov byte[color], 6
+        mov byte[color], 4
         mov byte[qtd], 58
         jmp gameitself
 
