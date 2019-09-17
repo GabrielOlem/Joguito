@@ -784,7 +784,7 @@ printar_tabuleiro:
         mov ah, [conta]
         cmp [di], ah
         jne .a
-        mov bl, 7
+        mov bl, 12
         inc di
         
         .a:
