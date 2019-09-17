@@ -72,7 +72,7 @@ draw_line:
     mov bh, 0
     mov al,7
     mov cx, 91
-    mov dx, 30        
+    mov dx, 29        
     .for_w:
         .for_x:
             mov ah, 0ch
@@ -83,11 +83,11 @@ draw_line:
                 jne .for_x
             mov cx, 91
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_w
     
     mov cx, 107
-    mov dx, 30       
+    mov dx, 29     
     .for_y:
         .for_z:
             mov ah, 0ch
@@ -98,11 +98,11 @@ draw_line:
                 jne .for_z
             mov cx, 107
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_y
     
     mov cx, 139
-    mov dx, 30        
+    mov dx, 29        
     .for_3:
         .for_4:
             mov ah, 0ch
@@ -113,10 +113,10 @@ draw_line:
                 jne .for_4
             mov cx, 139
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_3
     mov cx, 155
-    mov dx, 30        
+    mov dx, 29    
     .for_5:
         .for_6:
             mov ah, 0ch
@@ -127,11 +127,11 @@ draw_line:
                 jne .for_6
             mov cx, 155
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_5
     
     mov cx, 187
-    mov dx, 30        
+    mov dx, 29        
     .for_7:
         .for_8:
             mov ah, 0ch
@@ -142,11 +142,11 @@ draw_line:
                 jne .for_8
             mov cx, 187
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_7
     
     mov cx, 203
-    mov dx, 30
+    mov dx, 29
 
     .for_9:
         .for_10:
@@ -158,12 +158,12 @@ draw_line:
                 jne .for_10
             mov cx, 203
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_9
     
     mov cx, 75
-    mov dx, 44
-
+    mov dx, 43
+    ;2
     .for_19:
         .for_20:
             mov ah, 0ch
@@ -174,12 +174,12 @@ draw_line:
                 jne .for_20
             mov cx, 75
             inc dx
-            cmp dx, 46
+            cmp dx, 45
             jne .for_19
-    
     mov cx, 75
-    mov dx, 60
-
+    mov dx, 59
+    ;3
+    
     .for_21:
         .for_22:
             mov ah, 0ch
@@ -190,12 +190,12 @@ draw_line:
                 jne .for_22
             mov cx, 75
             inc dx
-            cmp dx, 62
+            cmp dx, 61
             jne .for_21
     
     mov cx, 75
-    mov dx, 92
-
+    mov dx, 91
+    ;5
     .for_23:
         .for_24:
             mov ah, 0ch
@@ -206,11 +206,11 @@ draw_line:
                 jne .for_24
             mov cx, 75
             inc dx
-            cmp dx, 94
+            cmp dx, 93
             jne .for_23
     mov cx, 75
-    mov dx, 108
-
+    mov dx, 107
+    ;6
     .for_25:
         .for_26:
             mov ah, 0ch
@@ -221,12 +221,12 @@ draw_line:
                 jne .for_26
             mov cx, 75
             inc dx
-            cmp dx, 110
+            cmp dx, 109
             jne .for_25
-    
-    mov cx, 75
-    mov dx, 140
 
+    mov cx, 75
+    mov dx, 139
+    ;8
     .for_27:
         .for_28:
             mov ah, 0ch
@@ -237,11 +237,11 @@ draw_line:
                 jne .for_28
             mov cx, 75
             inc dx
-            cmp dx, 142
+            cmp dx, 141
             jne .for_27
     mov cx, 75
-    mov dx, 156
-
+    mov dx, 155
+    ;9
     .for_29:
         .for_30:
             mov ah, 0ch
@@ -252,11 +252,11 @@ draw_line:
                 jne .for_30
             mov cx, 75
             inc dx
-            cmp dx, 158
+            cmp dx, 157
             jne .for_29
     mov al, 12
     mov cx, 219
-    mov dx, 30
+    mov dx, 29
             
     .for_11:
         .for_12:
@@ -268,12 +268,11 @@ draw_line:
                 jne .for_12
             mov cx, 219
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_11
     
     mov cx, 75
-    mov dx, 30
-            
+    mov dx, 29      
     .for_13:
         .for_14:
             mov ah, 0ch
@@ -284,12 +283,12 @@ draw_line:
                 jne .for_14
             mov cx, 75
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_13
     
     mov cx, 77
-    mov dx, 73
-
+    mov dx, 75
+    ;4
     .for_v:
         .for_h:
             mov ah, 0ch
@@ -300,12 +299,12 @@ draw_line:
                 jne .for_h
             mov cx, 77
             inc dx
-            cmp dx, 75
+            cmp dx, 77
             jne .for_v
     
     mov cx, 75
-    mov dx, 29
-
+    mov dx, 27
+    ;1
     .for_15:
         .for_16:
             mov ah, 0ch
@@ -316,12 +315,11 @@ draw_line:
                 jne .for_15
             mov cx, 75
             inc dx
-            cmp dx, 31
+            cmp dx, 29
             jne .for_16
-    
     mov cx, 75
-    mov dx, 170
-
+    mov dx, 171
+    ;10
     .for_17:
         .for_18:
             mov ah, 0ch
@@ -332,11 +330,11 @@ draw_line:
                 jne .for_18
             mov cx, 75
             inc dx
-            cmp dx, 172
+            cmp dx, 173
             jne .for_17
-    
     mov cx, 77
     mov dx, 123
+    ;7
     .for_j:
         .for_k:
             mov ah, 0ch
@@ -348,10 +346,9 @@ draw_line:
             mov cx, 77
             inc dx
             cmp dx, 125
-            jne .for_j
-            
+            jne .for_j       
     mov cx, 123
-    mov dx, 30        
+    mov dx, 29      
     .for_l:
         .for_m:
             mov ah, 0ch
@@ -362,11 +359,11 @@ draw_line:
                 jne .for_m
             mov cx, 123
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_l
                        
     mov cx, 171
-    mov dx, 30        
+    mov dx, 29        
     .for_n:
         .for_o:
             mov ah, 0ch
@@ -377,7 +374,7 @@ draw_line:
                 jne .for_o
             mov cx, 171
             inc dx
-            cmp dx, 170
+            cmp dx, 171
             jne .for_n
             ret
     
@@ -386,7 +383,6 @@ draw_line:
     mov ah, 0x2
     int 0x10
     ret
-
 draw_detalhe:
     mov si, quadrado1
     lodsb
@@ -528,7 +524,7 @@ menu:
     call clear
     .start:
         mov si, titulo
-        mov bl, 12
+        mov bl,12
         mov ah, 02h
         mov dh, 5
         mov dl, 14
