@@ -73,7 +73,7 @@ pular_linha:
 draw_line:
 
     mov bh, 0
-    mov al,7
+    mov al, 7
     mov cx, 91
     mov dx, 29        
     .for_w:
